@@ -11,7 +11,7 @@ do_state_tasks <- function(oldest_active_sites, ...) {
     step_name = 'download',
     target_name = function(task_name, ...) sprintf('%s_data', task_name),
     command = function(task_name, ...) {
-      sprintf("get_site_data('1_fetch/temp/inventory_%s.tsv', parameter)", task_name)
+      sprintf("get_site_data('1_fetch/tmp/inventory_%s.tsv', parameter)", task_name)
     }
   )
 
