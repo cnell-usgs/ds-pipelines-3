@@ -1,0 +1,9 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+.remake
+1_fetch/tmp/*
+!1_fetch/tmp/state_splits.yml
+*/.DS_Store
+3_visualize/out
