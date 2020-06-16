@@ -40,7 +40,7 @@ do_state_tasks <- function(oldest_active_sites, ...) {
     task_plan = task_plan,
     makefile = '123_state_tasks.yml',
     include = 'remake.yml',
-    sources = c(...
+    sources = c(...),
     packages = c('tidyverse', 'dataRetrieval', 'lubridate'),
     tickquote_combinee_objects = FALSE,
     finalize_funs = c())
