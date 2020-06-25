@@ -15,8 +15,8 @@ packages:
 
 sources:
   - 1_fetch/src/get_site_data.R
-  - 2_process/src/tally_site_obs.R
   - 3_visualize/src/plot_site_data.R
+  - 2_process/src/tally_site_obs.R
 
 file_extensions:
   - "ind"
@@ -24,24 +24,8 @@ file_extensions:
 targets:
   123_state_tasks:
     depends:
-      - WI_data
-      - '3_visualize/out/timeseries_WI.png'
-      - WI_tally
-      - MN_data
-      - '3_visualize/out/timeseries_MN.png'
-      - MN_tally
-      - MI_data
-      - '3_visualize/out/timeseries_MI.png'
-      - MI_tally
-      - IL_data
-      - '3_visualize/out/timeseries_IL.png'
-      - IL_tally
-      - IN_data
-      - '3_visualize/out/timeseries_IN.png'
-      - IN_tally
-      - IA_data
-      - '3_visualize/out/timeseries_IA.png'
-      - IA_tally
+      - obs_tallies_promise
+      - timeseries_plots.yml_promise
 
   # --- WI --- #
   
@@ -109,3 +93,65 @@ targets:
   IA_tally:
     command: tally_site_obs(site_data = IA_data)
 
+  # --- CA --- #
+  
+  CA_data:
+    command: get_site_data('1_fetch/tmp/inventory_CA.tsv', parameter)
+
+  3_visualize/out/timeseries_CA.png:
+    command: plot_site_data(out_file = target_name, site_data = CA_data, parameter = parameter)
+
+  CA_tally:
+    command: tally_site_obs(site_data = CA_data)
+
+  # --- WA --- #
+  
+  WA_data:
+    command: get_site_data('1_fetch/tmp/inventory_WA.tsv', parameter)
+
+  3_visualize/out/timeseries_WA.png:
+    command: plot_site_data(out_file = target_name, site_data = WA_data, parameter = parameter)
+
+  WA_tally:
+    command: tally_site_obs(site_data = WA_data)
+
+  # --- Overall job --- #
+
+  obs_tallies_promise:
+    command: combine_obs_tallies(
+      `WI_tally`,
+      '3_visualize/out/timeseries_WI.png',
+      `MN_tally`,
+      '3_visualize/out/timeseries_MN.png',
+      `MI_tally`,
+      '3_visualize/out/timeseries_MI.png',
+      `IL_tally`,
+      '3_visualize/out/timeseries_IL.png',
+      `IN_tally`,
+      '3_visualize/out/timeseries_IN.png',
+      `IA_tally`,
+      '3_visualize/out/timeseries_IA.png',
+      `CA_tally`,
+      '3_visualize/out/timeseries_CA.png',
+      `WA_tally`,
+      '3_visualize/out/timeseries_WA.png')
+    
+  timeseries_plots.yml_promise:
+    command: summarize_timeseries_plots(I('3_visualize/out/timeseries_plots.yml'),
+      `WI_tally`,
+      '3_visualize/out/timeseries_WI.png',
+      `MN_tally`,
+      '3_visualize/out/timeseries_MN.png',
+      `MI_tally`,
+      '3_visualize/out/timeseries_MI.png',
+      `IL_tally`,
+      '3_visualize/out/timeseries_IL.png',
+      `IN_tally`,
+      '3_visualize/out/timeseries_IN.png',
+      `IA_tally`,
+      '3_visualize/out/timeseries_IA.png',
+      `CA_tally`,
+      '3_visualize/out/timeseries_CA.png',
+      `WA_tally`,
+      '3_visualize/out/timeseries_WA.png')
+    
